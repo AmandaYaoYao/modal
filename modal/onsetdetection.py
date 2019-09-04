@@ -45,9 +45,9 @@ class OnsetDetection(object):
             start_sample = 0
             end_sample = len(self.odf)
             if i > (self.median_window / 2):
-                start_sample = i - (self.median_window / 2)
-            if i < len(self.odf) - (self.median_window / 2):
-                end_sample = i + (self.median_window / 2) + 1
+                start_sample = i - int(self.median_window / 2)
+            if i < len(self.odf) - int(self.median_window / 2):
+                end_sample = i + int(self.median_window / 2) + 1
             median_samples = self.odf[start_sample:end_sample]
             self.threshold[i] = self.median_a + (self.median_b *
                                                  np.median(median_samples))

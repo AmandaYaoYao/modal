@@ -132,10 +132,10 @@ if __name__ == '__main__':
             coefs = np.linalg.solve(A, B)
             ld_coefs = autocorrelation(test_signal, order)
             # compare coefficients
-            self.assertEquals(order, coefs.T.A[0].size)
-            self.assertEquals(order, ld_coefs.size)
+            self.assertEqual(order, coefs.T.A[0].size)
+            self.assertEqual(order, ld_coefs.size)
             for i in range(order):
-                self.assertAlmostEquals(coefs.T.A[0][i], ld_coefs[i],
+                self.assertAlmostEqual(coefs.T.A[0][i], ld_coefs[i],
                                         places=FLOAT_PRECISION)
 
         def test_covariance(self):
@@ -156,8 +156,8 @@ if __name__ == '__main__':
             coefs = np.array([1, 2, 3, 4, 5])
             test_signal = np.ones(5)
             predictions = predict(test_signal, coefs, 2)
-            self.assertEquals(predictions[0], -sum(coefs))
-            self.assertEquals(predictions[1], -sum(coefs[1:]) - predictions[0])
+            self.assertEqual(predictions[0], -sum(coefs))
+            self.assertEqual(predictions[1], -sum(coefs[1:]) - predictions[0])
 
     suite = unittest.TestSuite()
     suite.addTest(TestLP('test_autocorrelation'))

@@ -1,7 +1,7 @@
 import numpy as np
 import scipy.signal
-import mq
-import lp
+from . import mq
+from . import lp
 
 # -----------------------------------------------------------------------------
 # Spectral processing
@@ -63,8 +63,8 @@ def savitzky_golay(signal, num_points):
 
     # make sure num_points is valid. If not, use defaults
     if not num_points in [5, 7, 9, 11]:
-        print 'Invalid number of points to Savitzky-Golay algorithm, ',
-        print 'using default (5).'
+        print('Invalid number of points to Savitzky-Golay algorithm, ', end=' ')
+        print('using default (5).')
         num_points = 5
     n = int(num_points / 2)
     centre = n
@@ -169,11 +169,11 @@ class OnsetDetectionFunction(object):
         # give a warning if the hop size does not divide evenly into the
         # signal size
         if len(signal) % self.hop_size != 0:
-            print 'Warning: hop size (%d) is not a factor of signal size (%d)'\
-                % (self.hop_size, len(signal))
+            print('Warning: hop size (%d) is not a factor of signal size (%d)'\
+                % (self.hop_size, len(signal)))
 
         # make sure the given detection function array is large enough
-        if len(detection_function) < len(signal) / self.hop_size:
+        if len(detection_function) < int(len(signal) / self.hop_size):
             msg = 'detection function not large enough: %d (need %d)' % \
                 len(detection_function), len(signal) / self.hop_size
             raise Exception(msg)
@@ -250,7 +250,7 @@ class ComplexODF(OnsetDetectionFunction):
     def __init__(self):
         OnsetDetectionFunction.__init__(self)
         self.window = np.hanning(self.frame_size)
-        self.num_bins = (self.frame_size / 2) + 1
+        self.num_bins = int(self.frame_size / 2) + 1
         self.prev_mags = np.zeros(self.num_bins)
         self.prev_phases = np.zeros(self.num_bins)
         self.prev_phases2 = np.zeros(self.num_bins)
@@ -259,7 +259,7 @@ class ComplexODF(OnsetDetectionFunction):
     def set_frame_size(self, frame_size):
         self._frame_size = frame_size
         self.window = np.hanning(frame_size)
-        self.num_bins = (frame_size / 2) + 1
+        self.num_bins = int(frame_size / 2) + 1
         self.prev_mags = np.zeros(self.num_bins)
         self.prev_phases = np.zeros(self.num_bins)
         self.prev_phases2 = np.zeros(self.num_bins)
